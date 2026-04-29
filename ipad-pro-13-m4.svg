@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <linearGradient id="ipbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="ipbody" x1="0%" y1="0%" x2="20%" y2="100%">
+      <stop offset="0%" style="stop-color:#d0d5db"/>
+      <stop offset="100%" style="stop-color:#b8bec6"/>
+    </linearGradient>
+    <linearGradient id="ipsc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1c1c1e"/>
+      <stop offset="100%" style="stop-color:#2c2c2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="300" fill="url(#ipbg)"/>
+  <!-- iPad Pro body (landscape/portrait) -->
+  <rect x="75" y="28" width="150" height="244" rx="16" fill="url(#ipbody)"/>
+  <!-- Screen bezel (thin bezels on Pro) -->
+  <rect x="81" y="42" width="138" height="216" rx="8" fill="#0e0e0e"/>
+  <!-- Screen -->
+  <rect x="83" y="44" width="134" height="212" rx="6" fill="url(#ipsc)"/>
+  <!-- iPadOS wallpaper -->
+  <defs>
+    <linearGradient id="ipwall" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d6a4f"/>
+      <stop offset="50%" style="stop-color:#1b4332"/>
+      <stop offset="100%" style="stop-color:#081c15"/>
+    </linearGradient>
+  </defs>
+  <rect x="83" y="44" width="134" height="212" rx="6" fill="url(#ipwall)"/>
+  <!-- Status bar -->
+  <rect x="83" y="44" width="134" height="18" rx="0" fill="rgba(0,0,0,0.2)"/>
+  <!-- Face ID area (top) -->
+  <rect x="128" y="44" width="44" height="8" rx="4" fill="#000" opacity="0.5"/>
+  <!-- App grid -->
+  <rect x="90" y="70" width="22" height="22" rx="5" fill="rgba(255,255,255,0.12)"/>
+  <rect x="116" y="70" width="22" height="22" rx="5" fill="rgba(255,255,255,0.1)"/>
+  <rect x="142" y="70" width="22" height="22" rx="5" fill="rgba(255,255,255,0.1)"/>
+  <rect x="168" y="70" width="22" height="22" rx="5" fill="rgba(255,255,255,0.1)"/>
+  <rect x="90" y="96" width="22" height="22" rx="5" fill="rgba(255,255,255,0.1)"/>
+  <rect x="116" y="96" width="22" height="22" rx="5" fill="rgba(255,255,255,0.1)"/>
+  <rect x="142" y="96" width="22" height="22" rx="5" fill="rgba(255,255,255,0.1)"/>
+  <rect x="168" y="96" width="22" height="22" rx="5" fill="rgba(255,255,255,0.1)"/>
+  <text x="150" y="175" text-anchor="middle" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.4)">iPad Pro 13"</text>
+  <text x="150" y="187" text-anchor="middle" font-family="Arial" font-size="7.5" fill="rgba(255,255,255,0.25)">M4 · Ultra Retina XDR</text>
+  <!-- Home bar -->
+  <rect x="124" y="245" width="52" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+  <!-- Side button (top right) -->
+  <rect x="224" y="80" width="4" height="24" rx="2" fill="#aaa"/>
+  <!-- Volume buttons -->
+  <rect x="224" y="116" width="4" height="18" rx="2" fill="#aaa"/>
+  <rect x="224" y="138" width="4" height="18" rx="2" fill="#aaa"/>
+  <!-- Apple Pencil attach area hint -->
+  <rect x="75" y="150" width="5" height="40" rx="2" fill="rgba(255,255,255,0.15)"/>
+  <ellipse cx="150" cy="282" rx="55" ry="6" fill="rgba(0,0,0,0.07)"/>
+</svg>

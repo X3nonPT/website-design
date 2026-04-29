@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <linearGradient id="p14bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5f5f5"/>
+      <stop offset="100%" style="stop-color:#ebebeb"/>
+    </linearGradient>
+    <linearGradient id="p14body" x1="0%" y1="0%" x2="20%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2a2a"/>
+      <stop offset="100%" style="stop-color:#1a1a1a"/>
+    </linearGradient>
+    <linearGradient id="p14screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1c1c1e"/>
+      <stop offset="100%" style="stop-color:#2c2c2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="300" fill="url(#p14bg)"/>
+  <!-- MacBook Pro lid (Space Black) -->
+  <rect x="38" y="58" width="224" height="156" rx="9" fill="url(#p14body)"/>
+  <!-- Screen bezel (thinner bezels on Pro) -->
+  <rect x="44" y="63" width="212" height="144" rx="6" fill="#111"/>
+  <!-- Screen -->
+  <rect x="47" y="66" width="206" height="138" rx="4" fill="url(#p14screen)"/>
+  <!-- macOS wallpaper: dark purple/blue -->
+  <defs>
+    <radialGradient id="prowall" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#5e2ca5"/>
+      <stop offset="50%" style="stop-color:#1a1a3e"/>
+      <stop offset="100%" style="stop-color:#0a0a1a"/>
+    </radialGradient>
+  </defs>
+  <rect x="47" y="66" width="206" height="138" rx="4" fill="url(#prowall)"/>
+  <!-- Notch for Pro camera -->
+  <rect x="133" y="66" width="34" height="12" rx="0" fill="#111"/>
+  <rect x="133" y="66" width="34" height="6" rx="3" fill="#0a0a0a"/>
+  <!-- Dock dark -->
+  <rect x="97" y="192" width="106" height="9" rx="4" fill="rgba(255,255,255,0.12)"/>
+  <!-- Pro badge -->
+  <text x="150" y="145" text-anchor="middle" font-family="Arial" font-size="8" fill="rgba(255,255,255,0.4)" letter-spacing="1">MacBook Pro</text>
+  <!-- Base -->
+  <rect x="32" y="214" width="236" height="36" rx="4" fill="url(#p14body)"/>
+  <!-- Touch Bar suggestion -->
+  <rect x="38" y="217" width="224" height="6" rx="3" fill="rgba(255,255,255,0.08)"/>
+  <!-- Touch ID -->
+  <rect x="250" y="217" width="14" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
+  <!-- Keyboard -->
+  <rect x="38" y="225" width="224" height="7" rx="2" fill="rgba(255,255,255,0.06)"/>
+  <rect x="38" y="234" width="224" height="7" rx="2" fill="rgba(255,255,255,0.05)"/>
+  <!-- Trackpad -->
+  <rect x="112" y="222" width="76" height="22" rx="4" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+  <!-- Shadow -->
+  <ellipse cx="150" cy="260" rx="95" ry="7" fill="rgba(0,0,0,0.1)"/>
+</svg>

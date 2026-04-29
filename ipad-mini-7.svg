@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <linearGradient id="imbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="imbody" x1="0%" y1="0%" x2="20%" y2="100%">
+      <stop offset="0%" style="stop-color:#9b8fd4"/>
+      <stop offset="100%" style="stop-color:#7b6cb4"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="300" fill="url(#imbg)"/>
+  <!-- iPad Mini body (Purple - smaller) -->
+  <rect x="94" y="25" width="112" height="250" rx="14" fill="url(#imbody)"/>
+  <!-- Screen bezel -->
+  <rect x="100" y="40" width="100" height="220" rx="8" fill="#0e0e0e"/>
+  <!-- Screen -->
+  <rect x="102" y="42" width="96" height="216" rx="6" fill="#1a1a2e"/>
+  <!-- Colorful wallpaper -->
+  <defs>
+    <linearGradient id="imwall" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6c3483"/>
+      <stop offset="50%" style="stop-color:#1a5276"/>
+      <stop offset="100%" style="stop-color:#117a65"/>
+    </linearGradient>
+  </defs>
+  <rect x="102" y="42" width="96" height="216" rx="6" fill="url(#imwall)"/>
+  <!-- Status bar -->
+  <rect x="102" y="42" width="96" height="15" rx="0" fill="rgba(0,0,0,0.2)"/>
+  <circle cx="150" cy="50" r="3.5" fill="#000" opacity="0.5"/>
+  <!-- Mini app grid (smaller icons) -->
+  <rect x="108" y="64" width="18" height="18" rx="4" fill="rgba(255,255,255,0.15)"/>
+  <rect x="130" y="64" width="18" height="18" rx="4" fill="rgba(255,255,255,0.12)"/>
+  <rect x="152" y="64" width="18" height="18" rx="4" fill="rgba(255,255,255,0.12)"/>
+  <rect x="174" y="64" width="18" height="18" rx="4" fill="rgba(255,255,255,0.12)"/>
+  <rect x="108" y="86" width="18" height="18" rx="4" fill="rgba(255,255,255,0.1)"/>
+  <rect x="130" y="86" width="18" height="18" rx="4" fill="rgba(255,255,255,0.1)"/>
+  <rect x="152" y="86" width="18" height="18" rx="4" fill="rgba(255,255,255,0.1)"/>
+  <rect x="174" y="86" width="18" height="18" rx="4" fill="rgba(255,255,255,0.1)"/>
+  <text x="150" y="175" text-anchor="middle" font-family="Arial" font-size="8.5" fill="rgba(255,255,255,0.4)">iPad Mini 7</text>
+  <!-- Home bar -->
+  <rect x="130" y="248" width="40" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+  <!-- Top button (Touch ID) -->
+  <rect x="206" y="55" width="3" height="18" rx="1.5" fill="#8a78c4"/>
+  <!-- Volume -->
+  <rect x="206" y="90" width="3" height="14" rx="1.5" fill="#8a78c4"/>
+  <rect x="206" y="108" width="3" height="14" rx="1.5" fill="#8a78c4"/>
+  <ellipse cx="150" cy="282" rx="42" ry="5" fill="rgba(0,0,0,0.06)"/>
+</svg>

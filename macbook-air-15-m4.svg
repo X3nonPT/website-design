@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <linearGradient id="a15bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="a15body" x1="0%" y1="0%" x2="20%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0e5ec"/>
+      <stop offset="100%" style="stop-color:#c8cdd5"/>
+    </linearGradient>
+    <linearGradient id="a15screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1c1c1e"/>
+      <stop offset="100%" style="stop-color:#2c2c2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="300" fill="url(#a15bg)"/>
+  <!-- Laptop lid (bigger than Air 13) -->
+  <rect x="28" y="55" width="244" height="158" rx="10" fill="url(#a15body)"/>
+  <!-- Screen bezel -->
+  <rect x="36" y="63" width="228" height="142" rx="6" fill="#1a1a1a"/>
+  <!-- Screen content -->
+  <rect x="40" y="67" width="220" height="134" rx="4" fill="url(#a15screen)"/>
+  <!-- macOS wallpaper suggestion: Sky gradient -->
+  <defs>
+    <linearGradient id="sky15" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB"/>
+      <stop offset="60%" style="stop-color:#4a90d9"/>
+      <stop offset="100%" style="stop-color:#2171b5"/>
+    </linearGradient>
+  </defs>
+  <rect x="40" y="67" width="220" height="134" rx="4" fill="url(#sky15)" opacity="0.9"/>
+  <!-- Dock -->
+  <rect x="90" y="188" width="120" height="10" rx="5" fill="rgba(255,255,255,0.25)"/>
+  <!-- Dock icons suggestion -->
+  <rect x="94" y="190" width="8" height="8" rx="2" fill="rgba(255,255,255,0.5)"/>
+  <rect x="106" y="190" width="8" height="8" rx="2" fill="rgba(255,255,255,0.4)"/>
+  <rect x="118" y="190" width="8" height="8" rx="2" fill="rgba(255,255,255,0.4)"/>
+  <rect x="130" y="190" width="8" height="8" rx="2" fill="rgba(255,255,255,0.4)"/>
+  <!-- Camera dot -->
+  <circle cx="150" cy="70" r="2.5" fill="#333"/>
+  <!-- Apple logo on lid back (reflected) -->
+  <text x="150" y="128" text-anchor="middle" font-family="Arial" font-size="9" fill="rgba(255,255,255,0.5)">MacBook Air 15"</text>
+  <!-- Base/keyboard -->
+  <rect x="22" y="213" width="256" height="40" rx="4" fill="url(#a15body)"/>
+  <!-- Keyboard rows -->
+  <rect x="30" y="218" width="240" height="8" rx="2" fill="rgba(0,0,0,0.08)"/>
+  <rect x="30" y="228" width="240" height="8" rx="2" fill="rgba(0,0,0,0.07)"/>
+  <rect x="35" y="238" width="230" height="8" rx="2" fill="rgba(0,0,0,0.07)"/>
+  <!-- Trackpad -->
+  <rect x="108" y="220" width="84" height="24" rx="4" fill="rgba(0,0,0,0.06)" stroke="rgba(0,0,0,0.08)" stroke-width="0.5"/>
+  <!-- Hinge shadow -->
+  <rect x="22" y="210" width="256" height="5" rx="2" fill="rgba(0,0,0,0.1)"/>
+  <!-- Shadow -->
+  <ellipse cx="150" cy="265" rx="100" ry="8" fill="rgba(0,0,0,0.08)"/>
+</svg>
