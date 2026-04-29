@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Castro Electrónica — Redesign 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0D1F2D;
+  --navy-2: #162838;
+  --navy-3: #1e3347;
+  --blue: #1A73E8;
+  --blue-hover: #1558C0;
+  --blue-light: #E8F1FD;
+  --teal: #00C48C;
+  --teal-light: #E0F7F1;
+  --coral: #FF6B35;
+  --coral-light: #FFF0EA;
+  --white: #FFFFFF;
+  --off-white: #F7F8FA;
+  --gray-50: #F2F3F5;
+  --gray-100: #E4E6EA;
+  --gray-300: #BEC2CA;
+  --gray-500: #8A8F9A;
+  --gray-700: #4A4F5A;
+  --navy-text: #0D1F2D;
+  --body-text: #3A3F4A;
+  --muted: #8A8F9A;
+  --border: #E4E6EA;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+  --shadow-sm: 0 1px 4px rgba(13,31,45,.06);
+  --shadow-md: 0 4px 16px rgba(13,31,45,.10);
+  --shadow-lg: 0 8px 32px rgba(13,31,45,.14);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--off-white); color: var(--body-text); min-height: 100vh; }
+
+/* ══════════════════════════════════════
+   TOP NAV BAR (presenter controls)
+══════════════════════════════════════ */
+.presenter {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--navy);
+  padding: 0 32px;
+  display: flex; align-items: center; height: 52px;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.presenter-logo {
+  font-size: 15px; font-weight: 800; color: #fff;
+  margin-right: 20px; flex-shrink: 0; letter-spacing: -.01em;
+}
+.presenter-logo span { color: var(--blue); }
+.pv-btn {
+  font-size: 12px; font-weight: 600; padding: 6px 16px;
+  border-radius: 20px; border: 1px solid rgba(255,255,255,.15);
+  background: transparent; color: rgba(255,255,255,.55);
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+  font-family: inherit;
+}
+.pv-btn:hover { background: rgba(255,255,255,.08); color: #fff; }
+.pv-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.presenter-sep { flex: 1; }
+.presenter-tag {
+  font-size: 10px; font-weight: 600; color: rgba(255,255,255,.3);
+  letter-spacing: .08em; text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════
+   SCREEN SYSTEM
+══════════════════════════════════════ */
+.screen { display: none; padding-top: 52px; min-height: 100vh; animation: fadeUp .22s ease; }
+.screen.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ══════════════════════════════════════
+   SITE HEADER
+══════════════════════════════════════ */
+.site-header {
+  background: var(--navy);
+  padding: 0 48px;
+  display: flex; align-items: center; gap: 20px;
+  height: 68px;
+  position: sticky; top: 52px; z-index: 100;
+}
+.site-logo { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -.02em; flex-shrink: 0; }
+.site-logo span { color: var(--blue); }
+.header-search {
+  flex: 1; max-width: 560px;
+  display: flex; align-items: center;
+  background: rgba(255,255,255,.1); border-radius: 8px;
+  border: 1.5px solid transparent;
+  transition: all .2s; overflow: hidden;
+}
+.header-search:focus-within { background: #fff; border-color: var(--blue); }
+.header-search:focus-within .search-icon { stroke: var(--blue); }
+.header-search:focus-within input { color: var(--navy-text); }
+.header-search:focus-within .search-btn { background: var(--blue); }
+.search-icon { width: 18px; height: 18px; stroke: rgba(255,255,255,.4); fill: none; stroke-width: 2; stroke-linecap: round; margin: 0 10px; flex-shrink: 0; transition: stroke .2s; }
+.header-search input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-size: 14px; color: rgba(255,255,255,.8); font-family: inherit;
+  padding: 0 8px;
+}
+.header-search input::placeholder { color: rgba(255,255,255,.35); }
+.search-btn {
+  height: 68px; width: 52px; border: none; cursor: pointer;
+  background: rgba(255,255,255,.08); color: rgba(255,255,255,.6);
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  transition: all .15s; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+}
+.search-btn:hover { background: var(--blue); color: #fff; }
+.header-actions { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.hdr-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 14px; border-radius: 8px;
+  border: none; background: transparent; cursor: pointer;
+  color: rgba(255,255,255,.65); font-family: inherit; font-size: 13px; font-weight: 500;
+  transition: all .15s; white-space: nowrap;
+}
+.hdr-btn:hover { background: rgba(255,255,255,.08); color: #fff; }
+.hdr-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.cart-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 8px;
+  background: var(--blue); color: #fff; border: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 700;
+  transition: all .15s;
+}
+.cart-btn:hover { background: var(--blue-hover); }
+.cart-btn svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.cart-count {
+  background: var(--coral); color: #fff;
+  font-size: 10px; font-weight: 800;
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ══════════════════════════════════════
+   CATEGORY BAR
+══════════════════════════════════════ */
+.cat-bar {
+  background: var(--navy-2);
+  padding: 0 48px;
+  display: flex; align-items: center; gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.cat-item {
+  font-size: 13px; font-weight: 500; color: rgba(255,255,255,.5);
+  padding: 13px 16px; cursor: pointer; border-bottom: 2.5px solid transparent;
+  transition: all .15s; white-space: nowrap;
+}
+.cat-item:hover { color: rgba(255,255,255,.85); }
+.cat-item.active { color: #fff; border-bottom-color: var(--blue); }
+.cat-bar-spacer { flex: 1; }
+.cat-deal {
+  font-size: 11px; font-weight: 700; color: var(--coral);
+  padding: 5px 12px; border: 1.5px solid rgba(255,107,53,.4);
+  border-radius: 20px; letter-spacing: .02em; cursor: pointer;
+}
+
+/* ══════════════════════════════════════
+   LAYOUT UTILITIES
+══════════════════════════════════════ */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+.section { padding: 40px 0; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.section-title { font-size: 20px; font-weight: 800; color: var(--navy-text); letter-spacing: -.02em; }
+.see-all {
+  font-size: 13px; font-weight: 600; color: var(--blue);
+  cursor: pointer; display: flex; align-items: center; gap: 4px;
+}
+.see-all:hover { text-decoration: underline; }
+.badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 4px; letter-spacing: .03em;
+}
+.badge-sale { background: var(--coral); color: #fff; }
+.badge-new { background: var(--navy); color: #fff; }
+.badge-stock { background: var(--teal); color: #014d37; }
+.badge-hot { background: #FF6B35; color: #fff; }
+
+/* ══════════════════════════════════════
+   HOME — HERO
+══════════════════════════════════════ */
+.hero {
+  background: linear-gradient(110deg, #0D1F2D 0%, #162838 45%, #0e2840 100%);
+  padding: 60px 48px;
+  display: flex; gap: 60px; align-items: center;
+  max-width: 100%;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -60px; right: 200px; width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(26,115,232,.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-text { flex: 1; max-width: 540px; z-index: 1; }
+.hero-eyebrow {
+  font-size: 11px; font-weight: 700; color: var(--blue);
+  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.hero-eyebrow::before { content: ''; display: block; width: 24px; height: 2px; background: var(--blue); border-radius: 1px; }
+.hero-title {
+  font-size: 52px; font-weight: 800; color: #fff;
+  line-height: 1.05; letter-spacing: -.03em; margin-bottom: 16px;
+}
+.hero-title .accent { color: var(--blue); }
+.hero-sub { font-size: 16px; color: rgba(255,255,255,.6); line-height: 1.6; margin-bottom: 28px; }
+.hero-price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 28px; }
+.hero-price { font-size: 36px; font-weight: 800; color: #fff; letter-spacing: -.02em; }
+.hero-old-price { font-size: 18px; color: rgba(255,255,255,.35); text-decoration: line-through; }
+.hero-save { font-size: 12px; font-weight: 700; background: var(--coral); color: #fff; padding: 3px 10px; border-radius: 4px; }
+.hero-btns { display: flex; gap: 12px; align-items: center; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; border-radius: var(--r-md); border: none; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: all .18s; text-decoration: none; }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: var(--blue-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,115,232,.35); }
+.btn-ghost { background: rgba(255,255,255,.1); color: #fff; border: 1.5px solid rgba(255,255,255,.2); }
+.btn-ghost:hover { background: rgba(255,255,255,.18); }
+.hero-img-area {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  z-index: 1;
+}
+.hero-device {
+  width: 340px; height: 240px; background: rgba(255,255,255,.05);
+  border-radius: 16px; border: 1px solid rgba(255,255,255,.1);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.hero-device svg { width: 160px; height: 120px; stroke: rgba(255,255,255,.3); fill: none; stroke-width: 1; }
+.hero-device img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.hero-trust { display: flex; gap: 24px; margin-top: 28px; }
+.trust-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,.45); }
+.trust-item svg { width: 14px; height: 14px; stroke: var(--teal); fill: none; stroke-width: 2; stroke-linecap: round; }
+
+/* ══════════════════════════════════════
+   PROMO BAND
+══════════════════════════════════════ */
+.promo-band {
+  background: var(--navy-2); border-bottom: 1px solid rgba(255,255,255,.06);
+  padding: 12px 48px; display: flex; gap: 40px; align-items: center;
+}
+.promo-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,.55); font-size: 13px; font-weight: 500; }
+.promo-item svg { width: 16px; height: 16px; stroke: var(--teal); fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+.promo-item strong { color: rgba(255,255,255,.85); }
+
+/* ══════════════════════════════════════
+   PRODUCT CARDS
+══════════════════════════════════════ */
+.product-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.product-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.product-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg);
+  overflow: hidden; cursor: pointer; transition: all .2s; position: relative;
+}
+.product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: var(--blue); }
+.product-card-img {
+  height: 180px; background: var(--gray-50); display: flex; align-items: center; justify-content: center;
+  position: relative; transition: background .2s;
+}
+.product-card:hover .product-card-img { background: var(--blue-light); }
+.product-card-img svg { width: 72px; height: 72px; stroke: var(--gray-300); fill: none; stroke-width: 1; transition: stroke .2s; }
+.product-card:hover .product-card-img svg { stroke: var(--blue); }
+.card-badges { position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; gap: 4px; }
+.card-wishlist {
+  position: absolute; top: 10px; right: 10px;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--white); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; opacity: 0; transition: opacity .15s;
+}
+.product-card:hover .card-wishlist { opacity: 1; }
+.card-wishlist svg { width: 14px; height: 14px; stroke: var(--muted); fill: none; stroke-width: 2; }
+.product-card-body { padding: 14px; }
+.product-card-brand { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.product-card-name { font-size: 14px; font-weight: 600; color: var(--navy-text); line-height: 1.35; margin-bottom: 8px; height: 38px; overflow: hidden; }
+.product-card-stars { display: flex; align-items: center; gap: 4px; margin-bottom: 8px; }
+.stars { display: flex; gap: 1px; }
+.star { width: 10px; height: 10px; border-radius: 2px; }
+.star-on { background: var(--coral); }
+.star-off { background: var(--gray-100); }
+.review-count { font-size: 11px; color: var(--muted); }
+.product-card-price { display: flex; align-items: baseline; gap: 8px; }
+.price { font-size: 19px; font-weight: 800; color: var(--navy-text); letter-spacing: -.01em; }
+.old-price { font-size: 13px; color: var(--muted); text-decoration: line-through; }
+.card-add-btn {
+  display: none; width: 100%; padding: 10px; background: var(--blue); color: #fff;
+  border: none; border-radius: var(--r-sm); font-family: inherit; font-size: 13px; font-weight: 700;
+  cursor: pointer; margin-top: 10px; transition: background .15s;
+}
+.card-add-btn:hover { background: var(--blue-hover); }
+.product-card:hover .card-add-btn { display: block; }
+
+/* ══════════════════════════════════════
+   HOME CATEGORY TILES
+══════════════════════════════════════ */
+.category-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.category-tile {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 20px 16px; text-align: center; cursor: pointer; transition: all .2s;
+}
+.category-tile:hover { border-color: var(--blue); background: var(--blue-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.cat-tile-icon { width: 48px; height: 48px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; background: var(--gray-50); border-radius: 12px; }
+.cat-tile-icon svg { width: 26px; height: 26px; stroke: var(--navy-text); fill: none; stroke-width: 1.4; stroke-linecap: round; }
+.category-tile:hover .cat-tile-icon { background: var(--blue); }
+.category-tile:hover .cat-tile-icon svg { stroke: #fff; }
+.cat-tile-name { font-size: 12px; font-weight: 700; color: var(--navy-text); margin-bottom: 2px; }
+.cat-tile-count { font-size: 11px; color: var(--muted); }
+
+/* ══════════════════════════════════════
+   PROMO BANNER
+══════════════════════════════════════ */
+.promo-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 16px; }
+.promo-card {
+  border-radius: var(--r-xl); overflow: hidden; position: relative;
+  min-height: 200px; display: flex; align-items: flex-end; padding: 24px;
+  cursor: pointer; transition: transform .2s;
+}
+.promo-card:hover { transform: translateY(-3px); }
+.promo-card-bg-1 { background: linear-gradient(135deg, #0D1F2D 0%, #1e3347 100%); }
+.promo-card-bg-2 { background: linear-gradient(135deg, #FF6B35 0%, #c94c1c 100%); }
+.promo-card-bg-3 { background: linear-gradient(135deg, #00C48C 0%, #007a58 100%); }
+.promo-card-content { z-index: 1; }
+.promo-card-tag { font-size: 10px; font-weight: 700; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+.promo-card-title { font-size: 20px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 4px; }
+.promo-card-sub { font-size: 13px; color: rgba(255,255,255,.7); margin-bottom: 14px; }
+.promo-card-cta { font-size: 12px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; }
+.promo-card-img { position: absolute; right: 20px; bottom: 20px; opacity: .25; }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+.site-footer { background: var(--navy); padding: 56px 48px 32px; margin-top: 60px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 40px; }
+.footer-brand-logo { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -.02em; margin-bottom: 12px; }
+.footer-brand-logo span { color: var(--blue); }
+.footer-desc { font-size: 13px; color: rgba(255,255,255,.4); line-height: 1.7; max-width: 260px; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 8px; }
+.social-btn { width: 34px; height: 34px; border-radius: 8px; background: rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .15s; }
+.social-btn:hover { background: var(--blue); }
+.social-btn svg { width: 15px; height: 15px; stroke: rgba(255,255,255,.6); fill: none; stroke-width: 1.7; }
+.footer-col-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px; }
+.footer-link { display: block; font-size: 13px; color: rgba(255,255,255,.5); margin-bottom: 10px; cursor: pointer; transition: color .15s; }
+.footer-link:hover { color: #fff; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,.25); }
+.footer-langs { display: flex; gap: 8px; }
+.lang-btn { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.3); cursor: pointer; transition: color .15s; }
+.lang-btn:hover, .lang-btn.active { color: #fff; }
+
+/* ══════════════════════════════════════
+   SEARCH / LISTING PAGE
+══════════════════════════════════════ */
+.search-layout { display: flex; gap: 28px; padding: 32px 48px; max-width: 1280px; margin: 0 auto; }
+.search-sidebar { width: 240px; flex-shrink: 0; }
+.filter-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px; margin-bottom: 16px; }
+.filter-card-title { font-size: 13px; font-weight: 800; color: var(--navy-text); margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+.filter-clear { font-size: 11px; font-weight: 600; color: var(--blue); cursor: pointer; }
+.filter-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; }
+.filter-check { width: 16px; height: 16px; border: 1.5px solid var(--border); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.filter-check.checked { background: var(--blue); border-color: var(--blue); }
+.filter-check.checked::after { content: ''; width: 8px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translate(1px,-1px); display: block; }
+.filter-label-text { font-size: 13px; color: var(--body-text); flex: 1; }
+.filter-count { font-size: 11px; color: var(--muted); }
+.price-range { display: flex; gap: 8px; }
+.price-input { flex: 1; height: 36px; border: 1.5px solid var(--border); border-radius: 6px; padding: 0 10px; font-size: 13px; font-family: inherit; color: var(--navy-text); outline: none; }
+.price-input:focus { border-color: var(--blue); }
+.search-main { flex: 1; }
+.search-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.search-results-count { font-size: 15px; font-weight: 700; color: var(--navy-text); }
+.search-results-sub { font-size: 13px; color: var(--muted); font-weight: 400; }
+.sort-select { height: 38px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 12px; font-size: 13px; font-family: inherit; color: var(--navy-text); outline: none; background: var(--white); cursor: pointer; }
+.sort-select:focus { border-color: var(--blue); }
+.active-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.filter-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--blue-light); color: var(--blue);
+  font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
+  cursor: pointer;
+}
+.filter-pill:hover { background: #d0e4fb; }
+.result-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.pagination { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 36px; }
+.page-btn { width: 38px; height: 38px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--white); font-family: inherit; font-size: 13px; font-weight: 600; color: var(--body-text); cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center; }
+.page-btn:hover { border-color: var(--blue); color: var(--blue); }
+.page-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+/* ══════════════════════════════════════
+   PRODUCT DETAIL PAGE
+══════════════════════════════════════ */
+.pdp-layout { max-width: 1280px; margin: 0 auto; padding: 32px 48px; }
+.pdp-breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 28px; display: flex; align-items: center; gap: 6px; }
+.pdp-breadcrumb a { color: var(--blue); cursor: pointer; }
+.pdp-breadcrumb span { color: var(--gray-300); }
+.pdp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+.pdp-gallery { }
+.pdp-main-img { width: 100%; height: 440px; background: var(--gray-50); border-radius: var(--r-xl); border: 1.5px solid var(--blue); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; position: relative; overflow: hidden; }
+.pdp-main-img svg { width: 180px; height: 140px; stroke: var(--gray-300); fill: none; stroke-width: 1; }
+.pdp-main-img img { max-width: 92%; max-height: 92%; object-fit: contain; display: block; }
+.pdp-thumbs { display: flex; gap: 10px; }
+.pdp-thumb { width: 72px; height: 72px; background: var(--gray-50); border-radius: 10px; border: 2px solid var(--border); cursor: pointer; transition: border-color .15s; }
+.pdp-thumb.active { border-color: var(--blue); }
+.pdp-thumb:hover { border-color: var(--blue); }
+.pdp-info { }
+.pdp-brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.pdp-brand { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.pdp-sku { font-size: 11px; color: var(--gray-300); font-family: 'DM Mono', monospace; }
+.pdp-title { font-size: 26px; font-weight: 800; color: var(--navy-text); line-height: 1.2; letter-spacing: -.02em; margin-bottom: 14px; }
+.pdp-stars-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.pdp-rating-num { font-size: 15px; font-weight: 800; color: var(--navy-text); }
+.pdp-reviews-link { font-size: 13px; color: var(--blue); cursor: pointer; }
+.pdp-price-block { background: var(--gray-50); border-radius: var(--r-lg); padding: 20px; margin-bottom: 20px; }
+.pdp-price-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+.pdp-price { font-size: 36px; font-weight: 800; color: var(--navy-text); letter-spacing: -.02em; }
+.pdp-old { font-size: 18px; color: var(--muted); text-decoration: line-through; }
+.pdp-save-badge { font-size: 12px; font-weight: 700; background: var(--coral); color: #fff; padding: 4px 10px; border-radius: 5px; }
+.pdp-finance { font-size: 12px; color: var(--muted); }
+.pdp-finance strong { color: var(--navy-text); }
+.pdp-stock-row { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+.stock-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); }
+.pdp-stock-text { font-size: 13px; font-weight: 600; color: var(--teal); }
+.pdp-stock-detail { font-size: 12px; color: var(--muted); }
+.pdp-options { margin-bottom: 20px; }
+.pdp-options-label { font-size: 12px; font-weight: 700; color: var(--navy-text); margin-bottom: 10px; text-transform: uppercase; letter-spacing: .05em; }
+.color-swatches { display: flex; gap: 10px; }
+.swatch { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: border-color .15s; }
+.swatch.active { border-color: var(--blue); }
+.swatch:hover { border-color: var(--blue); }
+.pdp-actions { display: flex; gap: 12px; margin-bottom: 24px; }
+.btn-add-lg { flex: 1; padding: 16px; background: var(--blue); color: #fff; border: none; border-radius: var(--r-md); font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; transition: all .2s; }
+.btn-add-lg:hover { background: var(--blue-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,115,232,.3); }
+.btn-wish-lg { width: 52px; height: 52px; border: 2px solid var(--border); border-radius: var(--r-md); background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.btn-wish-lg:hover { border-color: var(--coral); background: var(--coral-light); }
+.btn-wish-lg svg { width: 20px; height: 20px; stroke: var(--muted); fill: none; stroke-width: 2; }
+.btn-wish-lg:hover svg { stroke: var(--coral); }
+.pdp-guarantees { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.guarantee-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--gray-50); border-radius: 8px; font-size: 12px; color: var(--body-text); font-weight: 500; }
+.guarantee-item svg { width: 16px; height: 16px; stroke: var(--teal); fill: none; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+.pdp-tabs-bar { border-bottom: 1.5px solid var(--border); margin-bottom: 0; }
+.pdp-tab { display: inline-block; font-size: 14px; font-weight: 600; color: var(--muted); padding: 14px 24px; cursor: pointer; border-bottom: 2.5px solid transparent; margin-bottom: -1.5px; transition: all .15s; }
+.pdp-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.pdp-tab:hover:not(.active) { color: var(--navy-text); }
+.pdp-tab-panel { padding: 32px 0; display: none; }
+.pdp-tab-panel.active { display: block; }
+.spec-table { width: 100%; border-collapse: collapse; }
+.spec-table tr { border-bottom: 1px solid var(--border); }
+.spec-table tr:last-child { border-bottom: none; }
+.spec-table td { padding: 14px 16px; font-size: 14px; }
+.spec-table td:first-child { color: var(--muted); font-weight: 500; width: 220px; background: var(--gray-50); }
+.spec-table td:last-child { color: var(--navy-text); font-weight: 600; }
+.review-item { padding: 24px 0; border-bottom: 1px solid var(--border); }
+.review-item:last-child { border-bottom: none; }
+.review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.review-author { font-size: 14px; font-weight: 700; color: var(--navy-text); }
+.review-date { font-size: 12px; color: var(--muted); }
+.review-stars { margin-bottom: 8px; }
+.review-text { font-size: 14px; color: var(--body-text); line-height: 1.6; }
+
+/* ══════════════════════════════════════
+   CHECKOUT PAGE
+══════════════════════════════════════ */
+.checkout-layout { max-width: 1120px; margin: 0 auto; padding: 40px 48px; display: flex; gap: 36px; }
+.checkout-main { flex: 1; }
+.checkout-side { width: 360px; flex-shrink: 0; }
+.checkout-steps-bar { display: flex; align-items: center; margin-bottom: 36px; }
+.co-step { display: flex; align-items: center; gap: 10px; }
+.co-step-circle {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; flex-shrink: 0;
+}
+.co-done .co-step-circle { background: var(--teal); color: #fff; }
+.co-active .co-step-circle { background: var(--blue); color: #fff; }
+.co-inactive .co-step-circle { background: var(--gray-100); color: var(--muted); }
+.co-step-text { }
+.co-step-num { font-size: 10px; color: var(--muted); font-weight: 600; }
+.co-step-name { font-size: 13px; font-weight: 700; color: var(--navy-text); }
+.co-done .co-step-name { color: var(--teal); }
+.co-active .co-step-name { color: var(--blue); }
+.co-inactive .co-step-name { color: var(--muted); }
+.step-connector { flex: 1; height: 1.5px; background: var(--border); margin: 0 12px; }
+.step-connector.done { background: var(--teal); }
+.checkout-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 28px; margin-bottom: 20px; }
+.checkout-section-title { font-size: 16px; font-weight: 800; color: var(--navy-text); margin-bottom: 20px; letter-spacing: -.01em; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-field { }
+.form-label { font-size: 12px; font-weight: 600; color: var(--gray-700); margin-bottom: 5px; }
+.form-input { width: 100%; height: 44px; border: 1.5px solid var(--border); border-radius: 8px; padding: 0 14px; font-size: 14px; font-family: inherit; color: var(--navy-text); outline: none; transition: border-color .15s; }
+.form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,115,232,.1); }
+.form-full { grid-column: 1 / -1; }
+.co-opt-box {
+  background: #FFF8F5; border: 1.5px solid rgba(255,107,53,.3); border-radius: var(--r-lg);
+  padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; margin-top: 16px;
+}
+.co-opt-icon { font-size: 22px; flex-shrink: 0; }
+.co-opt-title { font-size: 14px; font-weight: 700; color: #7a3a00; margin-bottom: 4px; }
+.co-opt-text { font-size: 13px; color: #8a5a30; line-height: 1.5; margin-bottom: 12px; }
+.co-opt-btns { display: flex; gap: 8px; }
+.opt-btn { font-size: 12px; font-weight: 700; padding: 7px 16px; border-radius: 6px; cursor: pointer; transition: all .15s; font-family: inherit; }
+.opt-no { background: #fff; color: var(--gray-700); border: 1.5px solid var(--border); }
+.opt-no:hover { background: var(--gray-50); }
+.opt-yes { background: var(--blue-light); color: var(--blue); border: 1.5px solid rgba(26,115,232,.3); }
+.opt-yes:hover { background: #d0e4fb; }
+.co-btn-continue {
+  width: 100%; padding: 16px; background: var(--blue); color: #fff;
+  border: none; border-radius: var(--r-md); font-family: inherit;
+  font-size: 16px; font-weight: 800; cursor: pointer; transition: all .2s; margin-top: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.co-btn-continue:hover { background: var(--blue-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,115,232,.3); }
+.co-btn-continue svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+.order-summary-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-xl); overflow: hidden; position: sticky; top: 130px; }
+.summary-header { background: var(--navy); padding: 16px 20px; }
+.summary-header-title { font-size: 14px; font-weight: 800; color: #fff; }
+.summary-body { padding: 20px; }
+.order-item { display: flex; gap: 14px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.order-item-img { width: 64px; height: 64px; background: var(--gray-50); border-radius: 8px; border: 1px solid var(--border); flex-shrink: 0; }
+.order-item-info { flex: 1; }
+.order-item-name { font-size: 13px; font-weight: 600; color: var(--navy-text); line-height: 1.35; margin-bottom: 3px; }
+.order-item-qty { font-size: 12px; color: var(--muted); }
+.order-item-price { font-size: 16px; font-weight: 800; color: var(--navy-text); flex-shrink: 0; }
+.summary-line { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.summary-line.free { color: var(--teal); font-weight: 600; }
+.summary-line.total { font-size: 18px; font-weight: 800; color: var(--navy-text); margin-top: 12px; padding-top: 12px; border-top: 1.5px solid var(--border); }
+.summary-pay-methods { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
+.pay-chip { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 5px; background: var(--gray-50); border: 1px solid var(--border); color: var(--muted); }
+.secure-note { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); margin-top: 14px; }
+.secure-note svg { width: 13px; height: 13px; stroke: var(--teal); fill: none; stroke-width: 2; }
+</style>
+</head>
+<body>
+
+<!-- PRESENTER BAR -->
+<div class="presenter">
+  <div class="presenter-logo">C<span>E</span></div>
+  <button class="pv-btn active" onclick="nav('home')">Homepage</button>
+  <button class="pv-btn" onclick="nav('search')">Pesquisa / Listagem</button>
+  <button class="pv-btn" onclick="nav('pdp')">Página de Produto</button>
+  <button class="pv-btn" onclick="nav('checkout')">Checkout</button>
+  <div class="presenter-sep"></div>
+  <div class="presenter-tag">Protótipo Desktop · Redesign 2026</div>
+</div>
+
+<!-- ═══════════════ HOME ═══════════════ -->
+<div id="scr-home" class="screen active">
+  <header class="site-header">
+    <div class="site-logo">Castro <span>E</span></div>
+    <div class="header-search">
+      <svg class="search-icon" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5"/><path d="M14 14l3.5 3.5"/></svg>
+      <input type="text" placeholder="Pesquisar entre 120.000 produtos..." onclick="nav('search')">
+      <button class="search-btn" onclick="nav('search')">
+        <svg viewBox="0 0 20 20" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><circle cx="9" cy="9" r="5"/><path d="M14 14l3.5 3.5"/></svg>
+      </button>
+    </div>
+    <div class="header-actions">
+      <button class="hdr-btn">
+        <svg viewBox="0 0 20 20"><circle cx="10" cy="8" r="4"/><path d="M3 19c0-4 3.1-7 7-7s7 3 7 7"/></svg>
+        Conta
+      </button>
+      <button class="hdr-btn">
+        <svg viewBox="0 0 20 20"><path d="M3.5 8.5L10 3l6.5 5.5V17a1 1 0 01-1 1h-3v-4h-5v4H3.5a1 1 0 01-1-1V8.5Z"/></svg>
+        Wishlist
+      </button>
+      <button class="cart-btn" onclick="nav('checkout')">
+        <svg viewBox="0 0 20 20"><path d="M3 3h2.5l2.5 9h7l2-6H6"/><circle cx="9" cy="17" r="1.5"/><circle cx="15" cy="17" r="1.5"/></svg>
+        Carrinho
+        <div class="cart-count">2</div>
+      </button>
+    </div>
+  </header>
+  <div class="cat-bar">
+    <div class="cat-item active">Informática</div>
+    <div class="cat-item">Smartphones</div>
+    <div class="cat-item">TV & Áudio</div>
+    <div class="cat-item">Eletrodomésticos</div>
+    <div class="cat-item">Componentes</div>
+    <div class="cat-item">Gaming</div>
+    <div class="cat-item">Fotografia</div>
+    <div class="cat-item">Ferramentas</div>
+    <div class="cat-bar-spacer"></div>
+    <div class="cat-deal">🔥 Promoções</div>
+  </div>
+  <div class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Novidade 2026</div>
+      <div class="hero-title">MacBook Air <span class="accent">M4</span><br>chegou ao melhor preço</div>
+      <div class="hero-sub">Chip M4 de 10 núcleos, ecrã Liquid Retina 13.6"<br>Bateria até 18h · Wi-Fi 6E · Peso 1,24 kg</div>
+      <div class="hero-price-row">
+        <div class="hero-price">1.199 €</div>
+        <div class="hero-old-price">1.399 €</div>
+        <div class="hero-save">-14%</div>
+      </div>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="nav('pdp')">Comprar agora →</button>
+        <button class="btn btn-ghost" onclick="nav('search')">Ver toda a gama</button>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg>Entrega grátis 24h</div>
+        <div class="trust-item"><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg>30 dias devolução</div>
+        <div class="trust-item"><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg>Garantia 24 meses</div>
+      </div>
+    </div>
+    <div class="hero-img-area">
+      <div class="hero-device">
+        <img src="assets/macbook-air-m4.avif" alt="MacBook Air M4">
+      </div>
+    </div>
+  </div>
+  <div class="promo-band">
+    <div class="promo-item"><svg viewBox="0 0 16 16"><path d="M2 8a6 6 0 1012 0A6 6 0 002 8Zm6-3v3l2 2"/></svg><strong>Entrega 24h</strong> para Portugal Continental</div>
+    <div class="promo-item"><svg viewBox="0 0 16 16"><path d="M3 4h10v5a5 5 0 01-10 0V4Zm0 0l-2 2m12-2l2 2"/></svg><strong>30 dias</strong> devolução sem questões</div>
+    <div class="promo-item"><svg viewBox="0 0 16 16"><rect x="2" y="4" width="12" height="9" rx="1"/><path d="M5 4V3a3 3 0 016 0v1"/></svg><strong>Pagamento seguro</strong> com Klarna, MB Way, Visa</div>
+    <div class="promo-item"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg><strong>30 anos</strong> de experiência no mercado</div>
+  </div>
+  <div class="container">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">Categorias em destaque</div>
+      </div>
+      <div class="category-grid">
+        <div class="category-tile" onclick="nav('search')">
+          <div class="cat-tile-icon"><svg viewBox="0 0 28 28"><rect x="3" y="4" width="22" height="15" rx="2"/><path d="M1 22h26l-3 3H4Z"/></svg></div>
+          <div class="cat-tile-name">Portáteis</div>
+          <div class="cat-tile-count">1.240 produtos</div>
+        </div>
+        <div class="category-tile" onclick="nav('search')">
+          <div class="cat-tile-icon"><svg viewBox="0 0 28 28"><rect x="8" y="2" width="12" height="22" rx="3"/><rect x="11" y="6" width="6" height="12" rx="1"/></svg></div>
+          <div class="cat-tile-name">Smartphones</div>
+          <div class="cat-tile-count">890 produtos</div>
+        </div>
+        <div class="category-tile" onclick="nav('search')">
+          <div class="cat-tile-icon"><svg viewBox="0 0 28 28"><rect x="2" y="6" width="24" height="14" rx="2"/><rect x="8" y="10" width="12" height="6" rx="1"/><path d="M8 24h12"/></svg></div>
+          <div class="cat-tile-name">TV & Áudio</div>
+          <div class="cat-tile-count">650 produtos</div>
+        </div>
+        <div class="category-tile" onclick="nav('search')">
+          <div class="cat-tile-icon"><svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="10"/><circle cx="14" cy="14" r="4"/><path d="M14 4v2M14 22v2M4 14H2M26 14h-2"/></svg></div>
+          <div class="cat-tile-name">Componentes</div>
+          <div class="cat-tile-count">18.400 produtos</div>
+        </div>
+        <div class="category-tile" onclick="nav('search')">
+          <div class="cat-tile-icon"><svg viewBox="0 0 28 28"><rect x="4" y="8" width="20" height="14" rx="2"/><path d="M10 8V6a4 4 0 018 0v2"/></svg></div>
+          <div class="cat-tile-name">Gaming</div>
+          <div class="cat-tile-count">2.100 produtos</div>
+        </div>
+        <div class="category-tile" onclick="nav('search')">
+          <div class="cat-tile-icon"><svg viewBox="0 0 28 28"><circle cx="14" cy="13" r="6"/><path d="M14 3v2M14 22v2M3 13H1M25 13h2M6.4 6.4l1.4 1.4M20.2 20.2l1.4 1.4"/></svg></div>
+          <div class="cat-tile-name">Iluminação</div>
+          <div class="cat-tile-count">3.800 produtos</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">Mais vendidos esta semana</div>
+        <div class="see-all" onclick="nav('search')">Ver todos →</div>
+      </div>
+      <div class="product-grid-4">
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img">
+            <div class="card-badges"><span class="badge badge-sale">-15%</span></div>
+            <div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div>
+            <svg viewBox="0 0 80 80"><rect x="10" y="10" width="60" height="42" rx="4"/><path d="M5 56h70l-6 9H11Z"/></svg>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Samsung</div>
+            <div class="product-card-name">Monitor Odyssey G7 27" 4K 144Hz</div>
+            <div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-off"></div></div><div class="review-count">(142)</div></div>
+            <div class="product-card-price"><div class="price">299€</div><div class="old-price">349€</div></div>
+            <button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button>
+          </div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img">
+            <div class="card-badges"><span class="badge badge-new">Novo</span></div>
+            <div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div>
+            <svg viewBox="0 0 80 80"><rect x="22" y="6" width="36" height="62" rx="6"/><rect x="28" y="14" width="24" height="42" rx="2"/><circle cx="40" cy="62" r="3"/></svg>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Apple</div>
+            <div class="product-card-name">iPhone 16 Pro 256GB Titânio Preto</div>
+            <div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div></div><div class="review-count">(87)</div></div>
+            <div class="product-card-price"><div class="price">1.099€</div></div>
+            <button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button>
+          </div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img">
+            <div class="card-badges"><span class="badge badge-stock">Em stock</span></div>
+            <div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div>
+            <svg viewBox="0 0 80 80"><ellipse cx="40" cy="45" rx="18" ry="8"/><rect x="25" y="22" width="30" height="26" rx="4"/><path d="M30 22V18a10 10 0 0120 0v4"/></svg>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Logitech</div>
+            <div class="product-card-name">MX Master 3S Wireless 8000 DPI</div>
+            <div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div></div><div class="review-count">(314)</div></div>
+            <div class="product-card-price"><div class="price">109€</div></div>
+            <button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button>
+          </div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img">
+            <div class="card-badges"><span class="badge badge-sale">-27%</span></div>
+            <div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div>
+            <svg viewBox="0 0 80 80"><rect x="8" y="20" width="64" height="38" rx="4"/><rect x="16" y="28" width="48" height="22" rx="2"/><path d="M30 62h20"/></svg>
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-brand">Sony</div>
+            <div class="product-card-name">Bravia 9 55" OLED 4K 120Hz Google TV</div>
+            <div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-off"></div></div><div class="review-count">(56)</div></div>
+            <div class="product-card-price"><div class="price">799€</div><div class="old-price">1.099€</div></div>
+            <button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="promo-grid">
+        <div class="promo-card promo-card-bg-1">
+          <div class="promo-card-content">
+            <div class="promo-card-tag">Oferta especial</div>
+            <div class="promo-card-title">Semana do<br>Back to School</div>
+            <div class="promo-card-sub">Portáteis, tablets e acessórios<br>com até 25% de desconto</div>
+            <div class="promo-card-cta" onclick="nav('search')">Ver ofertas →</div>
+          </div>
+        </div>
+        <div class="promo-card promo-card-bg-2" onclick="nav('search')">
+          <div class="promo-card-content">
+            <div class="promo-card-tag">Flash Sale · 48h</div>
+            <div class="promo-card-title">Gaming<br>-30%</div>
+            <div class="promo-card-sub">GPUs, periféricos e consolas</div>
+            <div class="promo-card-cta">Aproveitar →</div>
+          </div>
+        </div>
+        <div class="promo-card promo-card-bg-3" onclick="nav('search')">
+          <div class="promo-card-content">
+            <div class="promo-card-tag">Novidade</div>
+            <div class="promo-card-title">B2B<br>Revendedores</div>
+            <div class="promo-card-sub">Preços especiais para empresas</div>
+            <div class="promo-card-cta">Registar →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-logo">Castro <span>E</span></div>
+        <div class="footer-desc">Especialistas em tecnologia e inovação há 30 anos. Mais de 120.000 produtos com entrega rápida para Portugal e Europa.</div>
+        <div class="footer-social">
+          <div class="social-btn"><svg viewBox="0 0 16 16"><path d="M3 3h4v4H3Zm6 0h4v4h-4ZM3 9h4v4H3Zm6 0h4v4h-4Z"/></svg></div>
+          <div class="social-btn"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="3"/><circle cx="8" cy="8" r="3"/><circle cx="11.5" cy="4.5" r=".5" fill="currentColor" stroke="none"/></svg></div>
+          <div class="social-btn"><svg viewBox="0 0 16 16"><path d="M2 4l6 5 6-5M2 4h12v9H2V4Z"/></svg></div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Loja</div>
+        <div class="footer-link">Informática</div>
+        <div class="footer-link">Smartphones</div>
+        <div class="footer-link">TV & Áudio</div>
+        <div class="footer-link">Eletrodomésticos</div>
+        <div class="footer-link">Componentes</div>
+        <div class="footer-link">Gaming</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Apoio</div>
+        <div class="footer-link">FAQ</div>
+        <div class="footer-link">Rastrear encomenda</div>
+        <div class="footer-link">Devoluções</div>
+        <div class="footer-link">Garantias</div>
+        <div class="footer-link">Contacto</div>
+        <div class="footer-link">Chat ao vivo</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Empresa</div>
+        <div class="footer-link">Sobre nós</div>
+        <div class="footer-link">Loja física · Mozelos</div>
+        <div class="footer-link">B2B Revendedores</div>
+        <div class="footer-link">Recrutamento</div>
+        <div class="footer-link">RGPD</div>
+        <div class="footer-link">Termos de uso</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Castro Electrónica · PT503638471 · Mozelos, Santa Maria da Feira</div>
+      <div class="footer-langs">
+        <div class="lang-btn active">PT</div>
+        <div class="lang-btn">EN</div>
+        <div class="lang-btn">FR</div>
+        <div class="lang-btn">DE</div>
+        <div class="lang-btn">ES</div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════ SEARCH ═══════════════ -->
+<div id="scr-search" class="screen">
+  <header class="site-header">
+    <div class="site-logo">Castro <span>E</span></div>
+    <div class="header-search">
+      <svg class="search-icon" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5"/><path d="M14 14l3.5 3.5"/></svg>
+      <input type="text" value="portátil apple" style="color:#fff">
+      <button class="search-btn"><svg viewBox="0 0 20 20" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><circle cx="9" cy="9" r="5"/><path d="M14 14l3.5 3.5"/></svg></button>
+    </div>
+    <div class="header-actions">
+      <button class="hdr-btn"><svg viewBox="0 0 20 20"><circle cx="10" cy="8" r="4"/><path d="M3 19c0-4 3.1-7 7-7s7 3 7 7"/></svg>Conta</button>
+      <button class="cart-btn" onclick="nav('checkout')"><svg viewBox="0 0 20 20"><path d="M3 3h2.5l2.5 9h7l2-6H6"/><circle cx="9" cy="17" r="1.5"/><circle cx="15" cy="17" r="1.5"/></svg>Carrinho<div class="cart-count">2</div></button>
+    </div>
+  </header>
+  <div class="cat-bar">
+    <div class="cat-item">Informática</div><div class="cat-item active">Portáteis</div><div class="cat-item">Smartphones</div><div class="cat-item">TV & Áudio</div><div class="cat-item">Eletrodomésticos</div><div class="cat-item">Gaming</div>
+    <div class="cat-bar-spacer"></div><div class="cat-deal">🔥 Promoções</div>
+  </div>
+  <div class="search-layout">
+    <aside class="search-sidebar">
+      <div class="filter-card">
+        <div class="filter-card-title">Filtros <span class="filter-clear">Limpar tudo</span></div>
+        <div style="font-size:12px;font-weight:700;color:var(--navy-text);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em">Marca</div>
+        <div class="filter-item"><div class="filter-check checked"></div><div class="filter-label-text">Apple</div><div class="filter-count">(82)</div></div>
+        <div class="filter-item"><div class="filter-check"></div><div class="filter-label-text">Lenovo</div><div class="filter-count">(61)</div></div>
+        <div class="filter-item"><div class="filter-check"></div><div class="filter-label-text">HP</div><div class="filter-count">(49)</div></div>
+        <div class="filter-item"><div class="filter-check"></div><div class="filter-label-text">Dell</div><div class="filter-count">(34)</div></div>
+        <div class="filter-item"><div class="filter-check"></div><div class="filter-label-text">ASUS</div><div class="filter-count">(28)</div></div>
+        <div class="filter-item"><div class="filter-check"></div><div class="filter-label-text">MSI</div><div class="filter-count">(19)</div></div>
+      </div>
+      <div class="filter-card">
+        <div class="filter-card-title">Preço</div>
+        <div class="price-range" style="margin-bottom:12px">
+          <input class="price-input" type="text" placeholder="Min €">
+          <input class="price-input" type="text" placeholder="Max €">
+        </div>
+        <div class="filter-item"><div class="filter-check"></div><div class="filter-label-text">€ 0 – 500</div></div>
+        <div class="filter-item"><div class="filter-check checked"></div><div class="filter-label-text">€ 500 – 1.500</div></div>
+        <div class="filter-item"><div class="filter-check"></div><div class="filter-label-text">€ 1.500+</div></div>
+      </div>
+      <div class="filter-card">
+        <div class="filter-card-title">Avaliação</div>
+        <div class="filter-item"><div class="filter-check checked"></div><div class="filter-label-text">4+ estrelas</div></div>
+        <div class="filter-item"><div class="filter-check"></div><div class="filter-label-text">3+ estrelas</div></div>
+      </div>
+      <div class="filter-card">
+        <div class="filter-card-title">Disponibilidade</div>
+        <div class="filter-item"><div class="filter-check checked"></div><div class="filter-label-text">Em stock</div></div>
+        <div class="filter-item"><div class="filter-check"></div><div class="filter-label-text">Com desconto</div></div>
+      </div>
+    </aside>
+    <main class="search-main">
+      <div class="search-topbar">
+        <div>
+          <div class="search-results-count">247 resultados <span class="search-results-sub">para "portátil apple"</span></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <select class="sort-select"><option>Relevância</option><option>Preço: menor primeiro</option><option>Preço: maior primeiro</option><option>Melhor avaliação</option><option>Novidades</option></select>
+        </div>
+      </div>
+      <div class="active-filters">
+        <div class="filter-pill">Apple ×</div>
+        <div class="filter-pill">€500 – 1500 ×</div>
+        <div class="filter-pill">4+ estrelas ×</div>
+        <div class="filter-pill">Em stock ×</div>
+      </div>
+      <div class="result-grid-4">
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img"><div class="card-badges"><span class="badge badge-sale">-14%</span></div><div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div><svg viewBox="0 0 80 80"><rect x="10" y="10" width="60" height="42" rx="4"/><path d="M5 56h70l-6 9H11Z"/></svg></div>
+          <div class="product-card-body"><div class="product-card-brand">Apple</div><div class="product-card-name">MacBook Air 13" M4 8GB / 256GB</div><div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-off"></div></div><div class="review-count">(47)</div></div><div class="product-card-price"><div class="price">1.199€</div><div class="old-price">1.399€</div></div><button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button></div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img"><div class="card-badges"><span class="badge badge-new">Novo</span></div><div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div><svg viewBox="0 0 80 80"><rect x="10" y="10" width="60" height="42" rx="4"/><path d="M5 56h70l-6 9H11Z"/></svg></div>
+          <div class="product-card-body"><div class="product-card-brand">Apple</div><div class="product-card-name">MacBook Air 15" M4 16GB / 512GB</div><div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div></div><div class="review-count">(23)</div></div><div class="product-card-price"><div class="price">1.399€</div></div><button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button></div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img"><div class="card-badges"><span class="badge badge-sale">-10%</span></div><div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div><svg viewBox="0 0 80 80"><rect x="10" y="10" width="60" height="42" rx="4"/><path d="M5 56h70l-6 9H11Z"/></svg></div>
+          <div class="product-card-body"><div class="product-card-brand">Apple</div><div class="product-card-name">MacBook Pro 14" M4 Pro 24GB / 512GB</div><div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div></div><div class="review-count">(91)</div></div><div class="product-card-price"><div class="price">1.799€</div><div class="old-price">1.999€</div></div><button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button></div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img"><div class="card-badges"><span class="badge badge-new">Pro</span></div><div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div><svg viewBox="0 0 80 80"><rect x="10" y="10" width="60" height="42" rx="4"/><path d="M5 56h70l-6 9H11Z"/></svg></div>
+          <div class="product-card-body"><div class="product-card-brand">Apple</div><div class="product-card-name">MacBook Pro 16" M4 Max 48GB / 1TB</div><div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div></div><div class="review-count">(38)</div></div><div class="product-card-price"><div class="price">3.499€</div></div><button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button></div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img"><div class="card-badges"><span class="badge badge-stock">Em stock</span></div><div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div><svg viewBox="0 0 80 80"><rect x="18" y="6" width="44" height="68" rx="6"/><rect x="24" y="14" width="32" height="52" rx="2"/></svg></div>
+          <div class="product-card-body"><div class="product-card-brand">Apple</div><div class="product-card-name">iPad Pro 13" M4 Wi-Fi 256GB</div><div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-off"></div></div><div class="review-count">(64)</div></div><div class="product-card-price"><div class="price">1.299€</div></div><button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button></div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img"><div class="card-badges"><span class="badge badge-sale">-20%</span></div><div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div><svg viewBox="0 0 80 80"><rect x="18" y="6" width="44" height="68" rx="6"/><rect x="24" y="14" width="32" height="52" rx="2"/></svg></div>
+          <div class="product-card-body"><div class="product-card-brand">Apple</div><div class="product-card-name">iPad Air 11" M3 Wi-Fi 128GB</div><div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-off"></div></div><div class="review-count">(112)</div></div><div class="product-card-price"><div class="price">639€</div><div class="old-price">799€</div></div><button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button></div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img"><div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div><svg viewBox="0 0 80 80"><rect x="18" y="6" width="44" height="68" rx="6"/><rect x="24" y="14" width="32" height="52" rx="2"/></svg></div>
+          <div class="product-card-body"><div class="product-card-brand">Apple</div><div class="product-card-name">iPad Mini 7 Wi-Fi 128GB</div><div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-off"></div></div><div class="review-count">(77)</div></div><div class="product-card-price"><div class="price">549€</div></div><button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button></div>
+        </div>
+        <div class="product-card" onclick="nav('pdp')">
+          <div class="product-card-img"><div class="card-badges"><span class="badge badge-stock">Em stock</span></div><div class="card-wishlist"><svg viewBox="0 0 16 16"><path d="M8 13.5S2 9.5 2 5.5A3.5 3.5 0 018 3a3.5 3.5 0 016 2c0 4-6 8.5-6 8.5Z"/></svg></div><svg viewBox="0 0 80 80"><rect x="22" y="6" width="36" height="62" rx="6"/><rect x="28" y="14" width="24" height="42" rx="2"/></svg></div>
+          <div class="product-card-body"><div class="product-card-brand">Apple</div><div class="product-card-name">iPhone 16 256GB Azul Ultramar</div><div class="product-card-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div></div><div class="review-count">(203)</div></div><div class="product-card-price"><div class="price">899€</div></div><button class="card-add-btn" onclick="event.stopPropagation();nav('checkout')">Adicionar ao carrinho</button></div>
+        </div>
+      </div>
+      <div class="pagination">
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">…</button>
+        <button class="page-btn">12</button>
+        <button class="page-btn" style="width:auto;padding:0 14px">Próxima →</button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════ PDP ═══════════════ -->
+<div id="scr-pdp" class="screen">
+  <header class="site-header">
+    <div class="site-logo">Castro <span>E</span></div>
+    <div class="header-search">
+      <svg class="search-icon" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5"/><path d="M14 14l3.5 3.5"/></svg>
+      <input type="text" placeholder="Pesquisar..." onclick="nav('search')">
+      <button class="search-btn" onclick="nav('search')"><svg viewBox="0 0 20 20" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><circle cx="9" cy="9" r="5"/><path d="M14 14l3.5 3.5"/></svg></button>
+    </div>
+    <div class="header-actions">
+      <button class="hdr-btn"><svg viewBox="0 0 20 20"><circle cx="10" cy="8" r="4"/><path d="M3 19c0-4 3.1-7 7-7s7 3 7 7"/></svg>Conta</button>
+      <button class="cart-btn" onclick="nav('checkout')"><svg viewBox="0 0 20 20"><path d="M3 3h2.5l2.5 9h7l2-6H6"/><circle cx="9" cy="17" r="1.5"/><circle cx="15" cy="17" r="1.5"/></svg>Carrinho<div class="cart-count">2</div></button>
+    </div>
+  </header>
+  <div class="cat-bar">
+    <div class="cat-item" onclick="nav('home')">Início</div><div class="cat-item" onclick="nav('search')">Informática</div><div class="cat-item active">Portáteis</div>
+    <div class="cat-bar-spacer"></div><div class="cat-deal">🔥 Promoções</div>
+  </div>
+  <div class="pdp-layout">
+    <div class="pdp-breadcrumb">
+      <a onclick="nav('home')">Início</a><span>›</span>
+      <a onclick="nav('search')">Informática</a><span>›</span>
+      <a onclick="nav('search')">Portáteis</a><span>›</span>
+      <a onclick="nav('search')">Apple</a><span>›</span>
+      MacBook Air 13" M4
+    </div>
+    <div class="pdp-grid">
+      <div class="pdp-gallery">
+        <div class="pdp-main-img">
+          <img src="assets/macbook-air-m4.avif" alt="MacBook Air 13&quot; M4">
+        </div>
+        <div class="pdp-thumbs">
+          <div class="pdp-thumb active"></div>
+          <div class="pdp-thumb"></div>
+          <div class="pdp-thumb"></div>
+          <div class="pdp-thumb"></div>
+          <div class="pdp-thumb"></div>
+        </div>
+      </div>
+      <div class="pdp-info">
+        <div class="pdp-brand-row">
+          <div class="pdp-brand">Apple</div>
+          <div class="pdp-sku">SKU: MBA13M4-8-256-SL</div>
+        </div>
+        <div class="pdp-title">MacBook Air 13" M4<br>8GB RAM · 256GB SSD</div>
+        <div class="pdp-stars-row">
+          <div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-off"></div></div>
+          <div class="pdp-rating-num">4.0</div>
+          <div class="pdp-reviews-link">47 avaliações de clientes</div>
+        </div>
+        <div class="pdp-price-block">
+          <div class="pdp-price-row">
+            <div class="pdp-price">1.199 €</div>
+            <div class="pdp-old">1.399 €</div>
+            <div class="pdp-save-badge">Poupa 200€</div>
+          </div>
+          <div class="pdp-finance">Ou <strong>4 × 299,75€</strong> sem juros com Klarna</div>
+        </div>
+        <div class="pdp-stock-row">
+          <div class="stock-dot"></div>
+          <div class="pdp-stock-text">Em stock</div>
+          <div class="pdp-stock-detail">— Encomende até às 17h para receber amanhã</div>
+        </div>
+        <div class="pdp-options">
+          <div class="pdp-options-label">Cor: Prateado</div>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#C8C8C8" title="Prateado"></div>
+            <div class="swatch" style="background:#2C2C2A" title="Meia-noite"></div>
+            <div class="swatch" style="background:#B5D4F4" title="Azul-céu"></div>
+            <div class="swatch" style="background:#FAC775" title="Cor de areia"></div>
+          </div>
+        </div>
+        <div class="pdp-actions">
+          <button class="btn-add-lg" onclick="nav('checkout')">Adicionar ao carrinho</button>
+          <button class="btn-wish-lg"><svg viewBox="0 0 20 20"><path d="M10 17S3 12 3 7a4 4 0 017-2.6A4 4 0 0117 7c0 5-7 10-7 10Z"/></svg></button>
+        </div>
+        <div class="pdp-guarantees">
+          <div class="guarantee-item"><svg viewBox="0 0 16 16"><path d="M2 8a6 6 0 1012 0A6 6 0 002 8Zm6-3v3l2 2"/></svg>Entrega 24h grátis</div>
+          <div class="guarantee-item"><svg viewBox="0 0 16 16"><path d="M3 4h10v5a5 5 0 01-10 0V4Z"/></svg>Garantia 24 meses</div>
+          <div class="guarantee-item"><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg>Devolução 30 dias</div>
+          <div class="guarantee-item"><svg viewBox="0 0 16 16"><rect x="2" y="4" width="12" height="9" rx="1"/><path d="M5 4V3a3 3 0 016 0v1"/></svg>Pag. 100% seguro</div>
+        </div>
+      </div>
+    </div>
+    <div class="pdp-tabs-bar">
+      <div class="pdp-tab active" onclick="switchPdpTab(0,this)">Especificações</div>
+      <div class="pdp-tab" onclick="switchPdpTab(1,this)">Avaliações (47)</div>
+      <div class="pdp-tab" onclick="switchPdpTab(2,this)">Entregas & Devoluções</div>
+    </div>
+    <div id="pdp-tab-0" class="pdp-tab-panel active">
+      <table class="spec-table">
+        <tr><td>Processador</td><td>Apple M4 · 10-core CPU · 10-core GPU · 16-core Neural Engine</td></tr>
+        <tr><td>Memória RAM</td><td>8 GB Unificada</td></tr>
+        <tr><td>Armazenamento</td><td>256 GB SSD NVMe</td></tr>
+        <tr><td>Ecrã</td><td>13.6" Liquid Retina · 2560×1664 px · 224 ppi · P3 · True Tone</td></tr>
+        <tr><td>Bateria</td><td>Até 18 horas de utilização · MagSafe</td></tr>
+        <tr><td>Conectividade</td><td>Wi-Fi 6E · Bluetooth 5.3 · 2× USB-C Thunderbolt 4 · MagSafe 3</td></tr>
+        <tr><td>Câmara</td><td>FaceTime HD 12 MP · Center Stage</td></tr>
+        <tr><td>Dimensões</td><td>304,1 × 215 × 11,3 mm · Peso 1,24 kg</td></tr>
+        <tr><td>Sistema operativo</td><td>macOS Sequoia</td></tr>
+        <tr><td>Cor</td><td>Prateado · Meia-noite · Azul-céu · Cor de areia</td></tr>
+      </table>
+    </div>
+    <div id="pdp-tab-1" class="pdp-tab-panel">
+      <div class="review-item">
+        <div class="review-header"><div class="review-author">João M.</div><div class="review-date">Janeiro 2026</div></div>
+        <div class="review-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div></div></div>
+        <div class="review-text">Chegou em 24h perfeitamente embalado. O MacBook Air M4 é incrível — muito mais rápido que o meu antigo M1. Excelente relação qualidade-preço na Castro!</div>
+      </div>
+      <div class="review-item">
+        <div class="review-header"><div class="review-author">Ana S.</div><div class="review-date">Fevereiro 2026</div></div>
+        <div class="review-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-off"></div></div></div>
+        <div class="review-text">Muito satisfeita com a compra. O processo de checkout foi simples e rápido, e o produto chegou em ótimo estado. Recomendo!</div>
+      </div>
+      <div class="review-item">
+        <div class="review-header"><div class="review-author">Carlos F.</div><div class="review-date">Março 2026</div></div>
+        <div class="review-stars"><div class="stars"><div class="star star-on"></div><div class="star star-on"></div><div class="star star-on"></div><div class="star star-off"></div><div class="star star-off"></div></div></div>
+        <div class="review-text">Produto excelente, mas a entrega demorou 3 dias em vez das 24h prometidas. O suporte respondeu rapidamente quando entrei em contacto. No geral, satisfeito.</div>
+      </div>
+    </div>
+    <div id="pdp-tab-2" class="pdp-tab-panel">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;font-size:14px;line-height:1.7;color:var(--body-text)">
+        <div><div style="font-size:15px;font-weight:800;color:var(--navy-text);margin-bottom:12px">Entregas</div><p><strong>Standard (Grátis)</strong><br>2–4 dias úteis · Portugal Continental</p><br><p><strong>Express (+4,99€)</strong><br>Dia útil seguinte · encomendas até às 17h</p><br><p><strong>Levantamento em Loja (Grátis)</strong><br>Mozelos, Santa Maria da Feira<br>Disponível em 2h após confirmação</p></div>
+        <div><div style="font-size:15px;font-weight:800;color:var(--navy-text);margin-bottom:12px">Devoluções</div><p><strong>30 dias</strong> para devolver sem questões<br>Produto sem uso e embalagem original</p><br><p>Reembolso em <strong>5–7 dias úteis</strong><br>pelo mesmo método de pagamento</p><br><p>Devoluções gratuitas para recolha em loja<br>ou etiqueta pré-paga por <strong>€2,99</strong></p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CHECKOUT ═══════════════ -->
+<div id="scr-checkout" class="screen">
+  <header class="site-header" style="justify-content:center">
+    <div class="site-logo">Castro <span>E</span></div>
+    <div style="font-size:13px;color:rgba(255,255,255,.5);margin-left:16px">🔒 Checkout seguro</div>
+  </header>
+  <div class="checkout-layout">
+    <div class="checkout-main">
+      <div class="checkout-steps-bar">
+        <div class="co-step co-done"><div class="co-step-circle">✓</div><div class="co-step-text"><div class="co-step-num">Passo 1</div><div class="co-step-name">Carrinho</div></div></div>
+        <div class="step-connector done"></div>
+        <div class="co-step co-active"><div class="co-step-circle">2</div><div class="co-step-text"><div class="co-step-num">Passo 2</div><div class="co-step-name">Dados</div></div></div>
+        <div class="step-connector"></div>
+        <div class="co-step co-inactive"><div class="co-step-circle">3</div><div class="co-step-text"><div class="co-step-num">Passo 3</div><div class="co-step-name">Envio</div></div></div>
+        <div class="step-connector"></div>
+        <div class="co-step co-inactive"><div class="co-step-circle">4</div><div class="co-step-text"><div class="co-step-num">Passo 4</div><div class="co-step-name">Pagamento</div></div></div>
+      </div>
+      <div class="checkout-section">
+        <div class="checkout-section-title">Dados de entrega</div>
+        <div class="form-grid">
+          <div class="form-field"><div class="form-label">Primeiro nome</div><input class="form-input" type="text" placeholder="João"></div>
+          <div class="form-field"><div class="form-label">Apelido</div><input class="form-input" type="text" placeholder="Silva"></div>
+          <div class="form-field form-full"><div class="form-label">Email</div><input class="form-input" type="email" placeholder="joao.silva@email.pt"></div>
+          <div class="form-field"><div class="form-label">Telemóvel</div><input class="form-input" type="tel" placeholder="+351 912 345 678"></div>
+          <div class="form-field"><div class="form-label">NIF (opcional)</div><input class="form-input" type="text" placeholder="123 456 789"></div>
+          <div class="form-field form-full"><div class="form-label">Morada</div><input class="form-input" type="text" placeholder="Rua das Flores, 12, 2.º Esquerdo"></div>
+          <div class="form-field"><div class="form-label">Código Postal</div><input class="form-input" type="text" placeholder="4000-001"></div>
+          <div class="form-field"><div class="form-label">Localidade</div><input class="form-input" type="text" placeholder="Porto"></div>
+        </div>
+        <div class="co-opt-box">
+          <div class="co-opt-icon">📦</div>
+          <div>
+            <div class="co-opt-title">Embalagem reforçada — opcional (+3€)</div>
+            <div class="co-opt-text">O seu produto já está devidamente protegido na embalagem original. Se desejar embalagem extra de proteção para transporte, pode adicioná-la por 3€. Esta opção é inteiramente opcional.</div>
+            <div class="co-opt-btns">
+              <button class="opt-btn opt-no">Não, obrigado</button>
+              <button class="opt-btn opt-yes">Adicionar por +3€</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="co-btn-continue" onclick="alert('Protótipo: avançar para Envio')">
+        Continuar para envio
+        <svg viewBox="0 0 20 20"><path d="M5 10h10M11 6l4 4-4 4"/></svg>
+      </button>
+    </div>
+    <aside class="checkout-side">
+      <div class="order-summary-card">
+        <div class="summary-header"><div class="summary-header-title">Resumo da encomenda</div></div>
+        <div class="summary-body">
+          <div class="order-item">
+            <div class="order-item-img"></div>
+            <div class="order-item-info">
+              <div class="order-item-name">MacBook Air 13" M4 · 8GB/256GB · Prateado</div>
+              <div class="order-item-qty">Quantidade: 1</div>
+            </div>
+            <div class="order-item-price">1.199€</div>
+          </div>
+          <div class="summary-line"><span>Subtotal</span><span>1.199,00€</span></div>
+          <div class="summary-line free"><span>Envio Standard</span><span>Grátis</span></div>
+          <div class="summary-line"><span>IVA incluído (23%)</span><span>224,92€</span></div>
+          <div class="summary-line total"><span>Total</span><span>1.199,00€</span></div>
+          <div class="summary-pay-methods">
+            <div class="pay-chip">Visa</div>
+            <div class="pay-chip">Mastercard</div>
+            <div class="pay-chip">MB Way</div>
+            <div class="pay-chip">Klarna</div>
+            <div class="pay-chip">PayPal</div>
+            <div class="pay-chip">Transferência</div>
+          </div>
+          <div class="secure-note"><svg viewBox="0 0 14 14"><rect x="2" y="5" width="10" height="8" rx="1"/><path d="M5 5V4a2 2 0 014 0v1"/></svg>Pagamento 100% seguro e encriptado</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+function nav(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('scr-'+screen).classList.add('active');
+  document.querySelectorAll('.pv-btn').forEach(b => b.classList.remove('active'));
+  const idx = {home:0,search:1,pdp:2,checkout:3}[screen];
+  document.querySelectorAll('.pv-btn')[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function switchPdpTab(idx, el) {
+  document.querySelectorAll('.pdp-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pdp-tab-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('pdp-tab-'+idx).classList.add('active');
+}
+</script>
+</body>
+</html>
